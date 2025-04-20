@@ -48,17 +48,19 @@ export default function Home() {
 					Coming Soon
 				</p>
 				<div className="flex items-center justify-center gap-6 text-center mb-10">
-					{['days', 'hours', 'minutes'].map((unit, index) => (
+					{['days', 'hours', 'minutes'].map((unit) => (
 						<div key={unit} className="flex items-center gap-4">
 							<div className="bg-white/10 backdrop-blur-md rounded-xl px-6 py-4 max-sm:px-4 max-sm:py-[10px]">
 								<p className="text-3xl font-semibold">
-									{timeLeft[unit as keyof typeof timeLeft]}
+									{timeLeft[unit as keyof typeof timeLeft]}{' '}
 								</p>
 								<p className="text-xs text-gray-300 mt-1">
 									{unit.toUpperCase()}
 								</p>
 							</div>
-							{index < 2 && <div className="text-4xl font-semibold">:</div>}
+							{unit !== 'minutes' && (
+								<div className="text-4xl font-semibold">:</div>
+							)}
 						</div>
 					))}
 				</div>
