@@ -48,6 +48,7 @@ export async function POST(req: Request) {
 			);
 		}
 	} catch (error) {
+		console.error('Mailchimp subscription error:', error);
 		return NextResponse.json({ error: 'Server error' }, { status: 500 });
 	}
 }

@@ -6,13 +6,13 @@ import { toast } from 'sonner';
 
 export default function Home() {
 	const [email, setEmail] = useState('');
-	const [success, setSuccess] = useState(false);
-	const [error, setError] = useState(false);
+	// const [success, setSuccess] = useState(false);
+	// const [error, setError] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setSuccess(false);
-		setError(false);
+		// setSuccess(false);
+		// setError(false);
 
 		try {
 			const res = await fetch('/api/subscribe', {
