@@ -1,10 +1,42 @@
 'use client';
 
+import { Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function Home() {
+	const [email, setEmail] = useState('');
+	const [success, setSuccess] = useState(false);
+	const [error, setError] = useState(false);
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setSuccess(false);
+		setError(false);
+
+		try {
+			const res = await fetch('/api/subscribe', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ email }),
+			});
+
+			if (res.ok) {
+				toast.success("🎉 You've been subscribed!");
+				setEmail('');
+			} else {
+				const errorData = await res.json();
+				toast.error(`❌ ${errorData.error || 'Subscription failed'}`);
+			}
+		} catch {
+			toast.error('🚨 Something went wrong. Please try again.');
+		}
+	};
+
 	const calculateTimeLeft = () => {
-		const targetDate = new Date('2025-05-15T00:00:00');
+		const targetDate = new Date('2025-05-22T00:00:00');
 		const now = new Date();
 		const difference = targetDate.getTime() - now.getTime();
 
@@ -63,6 +95,33 @@ export default function Home() {
 							)}
 						</div>
 					))}
+				</div>
+
+				{/* Newsletter */}
+				<div className="my-12 w-full max-w-xl mx-auto px-4">
+					<h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 text-center">
+						Subscribe to be notified at launch
+					</h2>
+
+					<form
+						onSubmit={handleSubmit}
+						className="flex flex-col sm:flex-row gap-4 items-center justify-center"
+					>
+						<input
+							type="email"
+							placeholder="Enter your email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+							className="w-full sm:flex-1 px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+						/>
+						<button
+							type="submit"
+							className="px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition flex items-center justify-center"
+						>
+							<Send className="w-5 h-5 text-white" />
+						</button>
+					</form>
 				</div>
 
 				<p className="text-sm mb-2">
